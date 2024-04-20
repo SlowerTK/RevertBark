@@ -1,0 +1,14 @@
+{
+  "mappings": {
+    "org/revertbark/mixin/NewBoneMeal": {
+      "useOn": "Lnet/minecraft/class_1752;method_7884(Lnet/minecraft/class_1838;)Lnet/minecraft/class_1269;"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "org/revertbark/mixin/NewBoneMeal": {
+        "useOn": "Lnet/minecraft/class_1752;method_7884(Lnet/minecraft/class_1838;)Lnet/minecraft/class_1269;"
+      }
+    }
+  }
+}
