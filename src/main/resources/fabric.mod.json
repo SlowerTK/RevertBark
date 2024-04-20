@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "revertbark",
+  "version": "${version}",
+  "name": "RevertBark",
+  "description": "This mod allows you to \"grow\" the bark on logs back using bone meal.",
+  "authors": [
+    "SlowerTK"
+  ],
+  "contact": {
+    "repo": "https://github.com/SlowerTK/RevertBark"
+  },
+  "license": "unlicense",
+  "icon": "assets/revertbark/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "org.revertbark.client.RevertBarkClient"
+    ],
+    "main": [
+      "org.revertbark.RevertBark"
+    ]
+  },
+  "mixins": [
+    "revertbark.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
