@@ -5,10 +5,13 @@
   "name": "RevertBark",
   "description": "This mod allows you to \"grow\" the bark on logs back using bone meal.",
   "authors": [
-    "SlowerTK"
+    "SlowerTK",
+    "Paradise_Man  -  Idea"
   ],
   "contact": {
-    "repo": "https://github.com/SlowerTK/RevertBark"
+    "homepage": "https://modrinth.com/mod/revertbark",
+    "sources": "https://github.com/SlowerTK/RevertBark",
+    "issues": "https://github.com/SlowerTK/RevertBark/issues"
   },
   "license": "unlicense",
   "icon": "assets/revertbark/icon.png",
