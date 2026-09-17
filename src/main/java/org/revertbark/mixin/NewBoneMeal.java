@@ -2,6 +2,7 @@ package org.revertbark.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -52,35 +53,52 @@ public class NewBoneMeal {
 
     @Inject(at = @At("HEAD"), method = "useOn", cancellable = true)
     private void useOnLog(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> info) {
-        Level world = useOnContext.getLevel();
+        Level level = useOnContext.getLevel();
         BlockPos pos = useOnContext.getClickedPos();
         BlockState state = useOnContext.getLevel().getBlockState(pos);
         Block block = state.getBlock();
         if(strippedLogs.containsKey(block)){
             Block strippedBlock = strippedLogs.get(block);
             BlockState newState = strippedBlock.defaultBlockState().setValue(BlockStateProperties.AXIS, state.getValue(BlockStateProperties.AXIS));
-            useOnContext.getLevel().setBlockAndUpdate(pos, newState);
-            useOnContext.getLevel().playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            if (!level.isClientSide()) {
+                level.setBlockAndUpdate(pos, newState);
+                level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
-            double[][] offsets = {
-                    {1.1, 0.0, 0.0},
-                    {-0.1, 0.0, 0.0},
-                    {0.0, 1.1, 0.0},
-                    {0.0, -0.1, 0.0},
-                    {0.0, 0.0, 1.1},
-                    {0.0, 0.0, -0.1}
-            };
-            for(double[] offset : offsets){
-                int count = world.random.nextInt(1, 3);
-                for(int i = 0; i < count; i++){
-                double offsetX = offset[0] == 0.0 ? world.random.nextDouble() : offset[0];
-                double offsetY = offset[1] == 0.0 ? world.random.nextDouble() : offset[1];
-                double offsetZ = offset[2] == 0.0 ? world.random.nextDouble() : offset[2];
-                world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, 0.0D, 0.0D, 0.0D);
+//            double[][] offsets = {
+//                    {1.1, 0.0, 0.0},
+//                    {-0.1, 0.0, 0.0},
+//                    {0.0, 1.1, 0.0},
+//                    {0.0, -0.1, 0.0},
+//                    {0.0, 0.0, 1.1},
+//                    {0.0, 0.0, -0.1}
+//            };
+//            for(double[] offset : offsets){
+//                int count = world.random.nextInt(1, 3);
+//                for(int i = 0; i < count; i++){
+//                double offsetX = offset[0] == 0.0 ? world.random.nextDouble() : offset[0];
+//                double offsetY = offset[1] == 0.0 ? world.random.nextDouble() : offset[1];
+//                double offsetZ = offset[2] == 0.0 ? world.random.nextDouble() : offset[2];
+//                world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, 0.0D, 0.0D, 0.0D);
+//                }
+//            }
+
+                if (level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(
+                            ParticleTypes.HAPPY_VILLAGER,
+                            pos.getX()+0.5,
+                            pos.getY()+0.5,
+                            pos.getZ()+0.5,
+                            10,
+                            0.5,
+                            0.5,
+                            0.5,
+                            0.0
+                    );
                 }
+
+                ItemStack stack = useOnContext.getItemInHand();
+                stack.shrink(1);
             }
-            ItemStack stack = useOnContext.getItemInHand();
-            stack.shrink(1);
             info.setReturnValue(InteractionResult.SUCCESS);
         }
     }
