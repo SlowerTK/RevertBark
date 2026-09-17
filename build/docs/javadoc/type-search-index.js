@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"org.revertbark.mixin","l":"NewBoneMeal"},{"p":"org.revertbark","l":"RevertBark"},{"p":"org.revertbark.client","l":"RevertBarkClient"}];updateSearchResults();
